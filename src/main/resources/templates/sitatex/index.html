@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="kr" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- First include jquery js -->
+    <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+
+    <!-- 합쳐지고 최소화된 최신 CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+    <!-- 부가적인 테마 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+    <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+    <!-- Boot minty -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.2.3/dist/minty/bootstrap.min.css">
+
+    <style>
+        body {
+            margin: 0 auto;
+        }
+
+        #body-wrap {
+            margin: 3%;
+            /*display: flex;*/
+        }
+
+        #content-wrap {
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+        }
+
+        #left-box {
+            width: 30%;
+        }
+
+        #right-box {
+            width: 30%;
+        }
+
+        #right-top {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #left-box {
+            margin-right: 3%;
+        }
+
+        .form-group {
+            margin-bottom: 0px;
+        }
+
+
+    </style>
+
+    <title>Message</title>
+
+</head>
+<body>
+<div id="body-wrap">
+    <div id="content-wrap">
+        <div id="left-box">
+            <h1>Message List</h1>
+
+            <!-- LIST -->
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">Massage</th>
+                    <!--                <th scope="col">Column heading</th>-->
+                    <!--                <th scope="col">Column heading</th>-->
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="filenames, i : ${filenames}" onclick="onDetail(this)">
+                    <th scope="row">[[${i.count}]]</th>
+                    <td>[[${filenames}]]</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="right-box">
+            <div id="right-top">
+            <h1>Message Detail</h1>
+
+            <button type="button" class="btn btn-light" onclick="onNew()">New</button>
+            <button type="button" class="btn btn-light" onclick="onSave()">Save</button>
+        </div>
+
+        <div class="form-group">
+            <label for="exampleTextarea" class="form-label mt-4">Message</label>
+            <textarea class="form-control" id="exampleTextarea" rows="10"></textarea>
+        </div>
+
+        <!-- INPUT -->
+        <div id="input-box">
+            <div class="form-group">
+                <label class="col-form-label mt-4" for="textHeader">HEADER</label>
+                <input type="text" class="form-control" id="textHeader">
+            </div>
+
+            <div class="form-group">
+                <label class="col-form-label mt-4" for="textPriority">PRIORITY</label>
+                <input type="text" class="form-control" id="textPriority">
+            </div>
+
+            <div class="form-group">
+                <label for="exampleTextarea" class="form-label mt-4">DESTINATION TYPE B</label>
+                <textarea class="form-control" id="textDestination" rows="2"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label class="col-form-label mt-4" for="textOrigin">ORIGIN</label>
+                <input type="text" class="form-control" id="textOrigin">
+            </div>
+
+            <div class="form-group">
+                <label class="col-form-label mt-4" for="textSubject">SUBJECT</label>
+                <input type="text" class="form-control" id="textSubject">
+            </div>
+
+            <div class="form-group">
+                <label class="col-form-label mt-4" for="textSmi">SMI</label>
+                <input type="text" class="form-control" id="textSmi">
+            </div>
+
+            <!--                <div class="form-group">-->
+            <!--                    <label class="col-form-label mt-4" for="textContent">TEXT</label>-->
+            <!--                    <input type="text" class="form-control" id="textContent">-->
+            <!--                </div>-->
+            <div class="form-group">
+                <label for="exampleTextarea" class="form-label mt-4">Message</label>
+                <textarea class="form-control" id="textContent" rows="5"></textarea>
+            </div>
+
+            <!--                <div class="form-group">-->
+            <!--                    <label class="col-form-label mt-4" for="textSi">SI</label>-->
+            <!--                    <input type="text" class="form-control" id="textSi">-->
+            <!--                </div>-->
+            <div class="form-group">
+                <label for="exampleTextarea" class="form-label mt-4">SI</label>
+                <textarea class="form-control" id="textSi" rows="3"></textarea>
+            </div>
+
+            <!-- 상세 -->
+            <table class="table table-hover" style="margin-top: 20px" id="subTable">
+                <thead>
+                <tr>
+                    <th scope="col">Type</th>
+                    <th scope="col">Serial</th>
+                    <th scope="col">Owner</th>
+                    <th scope="col">Stn</th>
+                    <th scope="col">Baggage
+                    </th>
+                </tr>
+                </thead>
+                <tbody id="tbody">
+                <tr class="table-light">
+<!--                    <th scope="row" id="typeDe"></th>-->
+<!--                    <td id="serialDe"></td>-->
+<!--                    <td id="ownerDe"></td>-->
+<!--                    <td id="stnDe"></td>-->
+<!--                    <td id="bagDe"></td>-->
+                </tr>
+            </table>
+
+        </div>
+    </div>
+</div>
+</div>
+<script th:inline="javascript">
+
+    // onDetail() 작업하기
+    function onDetail(self) {
+        console.log("onDetail===>", self)
+        let param = $(self).find("td:eq(0)").text();
+        // alert(param);
+        $.ajax({
+            url: "/sitatex/detail",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(param),
+            success: function (data) {
+                // const textStr = data.split(",");
+                const textStr = data;
+                // const textStr = [[${sitatexText}]]
+                console.log("data===>>>", data);
+                console.log("textStr===>>>", textStr);
+                console.log("textStr===>>>");
+
+                let messageContent = "";
+                for (let i = 0; i < textStr.length; i++) {
+                    messageContent += textStr[i] + '\n';
+                }
+
+                document.getElementById("exampleTextarea").value = messageContent ?? '';
+
+                let headerIndex = textStr.indexOf('=HEADER') + 1
+                let priorityIndex = textStr.indexOf('=PRIORITY') + 1
+                let destinationIndex = textStr.indexOf('=DESTINATION TYPE B') + 1
+                let originIndex = textStr.indexOf('=ORIGIN') + 1
+                let subjectIndex = textStr.indexOf('=SUBJECT') + 1
+                let smiIndex = textStr.indexOf('=SMI') + 1
+                let textIndex = textStr.indexOf('=TEXT') + 1
+                let siIndex = textStr.indexOf('SI') + 1
+
+                let headerStr = "";
+                let priorityStr = "";
+                let destinationStr = "";
+                let originStr = "";
+                let subjectStr = "";
+                let smiStr = "";
+                let textContentStr = "";
+                let siStr = "";
+
+                if (headerIndex != 0) {
+                    for (let i = headerIndex; i < priorityIndex - 1; i++) {
+                        headerStr += textStr[i];
+                    }
+                } else if (headerIndex == 0) {
+                    headerStr = null;
+                }
+
+                if (priorityIndex != 0) {
+                    for (let i = priorityIndex; i < destinationIndex - 1; i++) {
+                        priorityStr += textStr[i];
+                    }
+                } else if (priorityIndex == 0) {
+                    priorityStr = null;
+                }
+
+                if (destinationIndex != 0) {
+                    for (let i = destinationIndex; i < originIndex - 1; i++) {
+                        destinationStr += textStr[i] + '\n';
+                    }
+                } else if (destinationIndex == 0) {
+                    destinationStr = null;
+                }
+
+                if (originIndex != 0 && subjectIndex != 0) {
+                    for (let i = originIndex; i < subjectIndex - 1; i++) {
+                        originStr += textStr[i];
+                    }
+                } else if (originIndex != 0 && subjectIndex == 0) {
+                    for (let i = originIndex; i < smiIndex - 1; i++) {
+                        originStr += textStr[i];
+                    }
+                } else if (originIndex == 0) {
+                    originStr = null;
+                }
+
+                if (subjectIndex != 0) {
+                    for (let i = subjectIndex; i < smiIndex - 1; i++) {
+                        subjectStr += textStr[i] + '\n';
+                    }
+                } else if (subjectIndex == 0) {
+                    subjectStr = null;
+                }
+
+                if (smiIndex != 0) {
+                    for (let i = smiIndex; i < textIndex - 1; i++) {
+                        smiStr += textStr[i];
+                    }
+                } else if (smiIndex == 0) {
+                    smiStr = null;
+                }
+
+                if (textIndex != 0 && siIndex != 0) {
+                    for (let i = textIndex; i < siIndex - 1; i++) {
+                        textContentStr += textStr[i] + '\n';
+                    }
+                } else if (textIndex != 0 && siIndex == 0) {
+                    for (let i = textIndex; i < textStr.length; i++) {
+                        textContentStr += textStr[i] + '\n';
+                    }
+                } else if (textIndex == 0) {
+                    textContentStr = null;
+
+                }
+
+                if (siIndex != 0) {
+                    for (let i = siIndex; i < textStr.length; i++) {
+                        siStr += textStr[i] + '\n';
+                    }
+                } else if (siIndex == 0) {
+                    siStr = null;
+                }
+
+                document.getElementById("textHeader").value = headerStr ?? '';
+                document.getElementById("textPriority").value = priorityStr ?? '';
+                document.getElementById("textDestination").value = destinationStr ?? '';
+                document.getElementById("textOrigin").value = originStr ?? '';
+                document.getElementById("textSubject").value = subjectStr ?? '';
+                document.getElementById("textSmi").value = smiStr ?? '';
+                document.getElementById("textContent").value = textContentStr ?? '';
+                document.getElementById("textSi").value = siStr ?? '';
+
+
+                // SubDetail
+                let subDetailIndex = textStr.indexOf('OUT') + 1
+                let subDetailStr = "";
+
+                if (subDetailIndex != 0 && siIndex != 0) {
+                    for (let i = subDetailIndex; i < siIndex - 1; i++) {
+                        subDetailStr += textStr[i] + '\n';
+                    }
+                } else if (subDetailIndex != 0 && siIndex == 0) {
+                    for (let i = subDetailIndex; i < textStr.length; i++) {
+                        subDetailStr += textStr[i] + '\n';
+                    }
+                }
+
+                let detail = subDetailStr.split('.');
+
+                let table = document.getElementById("subTable")
+                table.innerHTML = `<tr>
+                                        <th scope="col">Type</th>
+                                        <th scope="col">Serial</th>
+                                        <th scope="col">Owner</th>
+                                        <th scope="col">Stn</th>
+                                        <th scope="col">Baggage
+                                        </th>
+                                    </tr>`
+                for(let i = 1; i < detail.length; i++) {
+                    var row = `<tr>
+                                <td>${detail[i].substring(0, 3)}</td>
+                                <td>${detail[i].substring(3, 8)}</td>
+                                <td>${detail[i].substring(8, 10)}</td>
+                                <td>${detail[i].substring(11, 14)}</td>
+                                <td>${detail[i].substring(15)}</td>
+                              </tr>`
+                    table.innerHTML += row
+                }
+
+            },
+            error: function () {
+                alert("Detail error");
+            }
+        });
+
+    }
+
+    function onNew() {
+        document.getElementById("exampleTextarea").value = '';
+        document.getElementById("textHeader").value = '';
+        document.getElementById("textPriority").value = '';
+        document.getElementById("textDestination").value = '';
+        document.getElementById("textOrigin").value = '';
+        document.getElementById("textSubject").value = '';
+        document.getElementById("textSmi").value = '';
+        document.getElementById("textContent").value = '';
+        document.getElementById("textSi").value = '';
+
+        let table = document.getElementById("subTable")
+        table.innerHTML = `<tr>
+                                        <th scope="col">Type</th>
+                                        <th scope="col">Serial</th>
+                                        <th scope="col">Owner</th>
+                                        <th scope="col">Stn</th>
+                                        <th scope="col">Baggage
+                                        </th>
+                                    </tr>`
+    }
+
+    function onSave() {
+        let headerVal = document.getElementById("textHeader").value;
+        let priorityVal = document.getElementById("textPriority").value;
+        let destinationVal = document.getElementById("textDestination").value;
+        let originVal = document.getElementById("textOrigin").value;
+        let subjectVal = document.getElementById("textSubject").value;
+        let smiVal = document.getElementById("textSmi").value;
+        let contentVal = document.getElementById("textContent").value;
+        let siVal = document.getElementById("textSi").value;
+
+        let param = {
+            headerVal,
+            priorityVal,
+            destinationVal,
+            originVal,
+            subjectVal,
+            smiVal,
+            contentVal,
+            siVal
+        };
+
+        $.ajax({
+            url: "/sitatex/save",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(param),
+            success: function () {
+                alert("Save success");
+            },
+            error: function () {
+                alert("Save error");
+            }
+        });
+    }
+
+</script>
+</body>
+</html>
