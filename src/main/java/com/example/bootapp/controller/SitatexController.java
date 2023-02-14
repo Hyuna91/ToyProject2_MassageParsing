@@ -26,7 +26,7 @@ public class SitatexController {
         // Home
 //        String DATA_DIRECTORY = "C:\\Users\\장현아\\Desktop\\BootApp\\src\\main\\resources\\sitatex\\";
         // Company
-        String DATA_DIRECTORY = "C:\\dev\\BootApp\\src\\main\\resources\\sitatex\\";
+//        String DATA_DIRECTORY = "C:\\dev\\BootApp\\src\\main\\resources\\sitatex\\";
         File dir = new File(DATA_DIRECTORY);
         String[] filenames = dir.list();
         for(int i = 0; i < filenames.length; i++) {
